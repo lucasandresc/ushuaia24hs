@@ -4,16 +4,15 @@ import (
 	"context"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Professional struct {
-	ID       int
-	Name     string
-	Category string
-	Address  string
-	Phone    string
-	Phone2   pgtype.Text
+	ID       int     `json:"id"`
+	Name     string  `json:"name"`
+	Category string  `json:"category"`
+	Address  string  `json:"address"`
+	Phone    string  `json:"phone"`
+	Phone2   *string `json:"phone2"`
 }
 
 func GetAll(conn *pgx.Conn) ([]Professional, error) {
