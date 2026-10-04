@@ -34,3 +34,23 @@ func GetAll(conn *pgx.Conn) ([]Professional, error) {
 	}
 	return professionals, nil
 }
+
+func GetByCategory(conn *pgx.Conn, category string) ([]Professional, error) {
+	rows, err := conn.Query(context.Background(), "SELECT id, name, category, address, phone, phone2 FROM professionals WHERE category = $1", category)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var professionals []Professional
+
+	for rows.Next() {
+		var p Professional
+		err := rows.Scan(&p.ID, &p.Name, &p.Category, &p.Address, &p.Phone, &p.Phone2)
+		if err != nil {
+			return nil, err
+		}
+		professionals = append(professionals, p)
+	}
+	return professionals, nil
+}

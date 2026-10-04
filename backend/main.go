@@ -20,7 +20,15 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) GetProfessionals(w http.ResponseWriter, r *http.Request) {
-	professionalsList, err := professionals.GetAll(s.conn)
+	category := r.URL.Query().Get("category")
+	var professionalsList []professionals.Professional
+	var err error
+	if category == "" {
+		professionalsList, err = professionals.GetAll(s.conn)
+	} else {
+		professionalsList, err = professionals.GetByCategory(s.conn, category)
+	}
+
 	if err != nil {
 		fmt.Println("Error getting professionals:", err)
 		return
