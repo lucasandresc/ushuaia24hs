@@ -22,7 +22,7 @@ func GetAll(conn *pgx.Conn) ([]Professional, error) {
 	}
 	defer rows.Close()
 
-	var professionals []Professional
+	professionals := []Professional{}
 
 	for rows.Next() {
 		var p Professional
@@ -42,7 +42,7 @@ func GetByCategory(conn *pgx.Conn, category string) ([]Professional, error) {
 	}
 	defer rows.Close()
 
-	var professionals []Professional
+	professionals := []Professional{}
 
 	for rows.Next() {
 		var p Professional

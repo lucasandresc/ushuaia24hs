@@ -31,6 +31,7 @@ func (s *Server) GetProfessionals(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		fmt.Println("Error getting professionals:", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
