@@ -59,3 +59,19 @@ func Create(conn *pgx.Conn, p Professional) error {
 	_, err := conn.Exec(context.Background(), "INSERT INTO professionals(name, category, address, phone, phone2) VALUES ($1, $2, $3, $4, $5)", p.Name, p.Category, p.Address, p.Phone, p.Phone2)
 	return err
 }
+
+func Update(conn *pgx.Conn, id int, p Professional) (int64, error) {
+	result, err := conn.Exec(context.Background(), "UPDATE professionals SET name = $1, category = $2, address = $3, phone = $4, phone2 = $5 WHERE id = $6", p.Name, p.Category, p.Address, p.Phone, p.Phone2, id)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
+func Delete(conn *pgx.Conn, id int) (int64, error) {
+	result, err := conn.Exec(context.Background(), "DELETE FROM professionals WHERE id = $1", id)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
