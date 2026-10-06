@@ -54,3 +54,8 @@ func GetByCategory(conn *pgx.Conn, category string) ([]Professional, error) {
 	}
 	return professionals, nil
 }
+
+func Create(conn *pgx.Conn, p Professional) error {
+	_, err := conn.Exec(context.Background(), "INSERT INTO professionals(name, category, address, phone, phone2) VALUES ($1, $2, $3, $4, $5)", p.Name, p.Category, p.Address, p.Phone, p.Phone2)
+	return err
+}
