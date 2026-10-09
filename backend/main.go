@@ -22,6 +22,7 @@ func main() {
 	mux.HandleFunc("GET /", handlers.Home)
 	mux.HandleFunc("GET /professionals", server.GetProfessionals)
 	mux.HandleFunc("POST /professionals", server.CreateProfessional)
+	mux.HandleFunc("GET /professionals/{id}", server.GetProfessionalByID)
 	mux.HandleFunc("PUT /professionals/{id}", server.UpdateProfessional)
 	mux.HandleFunc("DELETE /professionals/{id}", server.DeleteProfessional)
 

@@ -75,3 +75,14 @@ func Delete(conn *pgx.Conn, id int) (int64, error) {
 	}
 	return result.RowsAffected(), nil
 }
+
+func GetByID(conn *pgx.Conn, id int) (Professional, error) {
+	var p Professional
+	err := conn.QueryRow(context.Background(),
+		"SELECT id, name, category, address, phone, phone2 FROM professionals WHERE id = $1",
+		id).Scan(&p.ID, &p.Name, &p.Category, &p.Address, &p.Phone, &p.Phone2)
+	if err != nil {
+		return Professional{}, err
+	}
+	return p, nil
+}
