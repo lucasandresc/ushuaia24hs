@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import ProfessionalCard from './components/ProfessionalCard'
 
 function App() {
   const [professionals, setProfessionals] = useState([])
@@ -14,26 +15,19 @@ function App() {
     fetchProfessionals()
   }, [])
 
+const categories = [
+  { value: "vet", label: "Veterinarias" },
+  { value: "dentist", label: "Odontología" },
+  { value: "emergencies", label: "Emergencias" },
+]
+
 return (
   <div>
     <h1>Ushuaia 24hs</h1>
     <p>Guardias y profesionales disponibles</p>
 
     {professionals.map((prof) => (
-      <div key={prof.id} className="card">
-        <h2>{prof.name}</h2>
-        <p>{prof.category}</p>
-        <p>{prof.address}</p>
-        <a href={`tel:${prof.phone}`} className="call-button">
-          Llamar
-        </a>
-        <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(prof.address + ", Ushuaia")}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="map-button">
-          Cómo llegar
-        </a>
-      </div>
+      <ProfessionalCard key={prof.id} professional={prof} />
     ))}
 
   </div>
