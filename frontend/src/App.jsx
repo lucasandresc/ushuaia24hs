@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import ProfessionalCard from './components/ProfessionalCard'
+import { FaPaw, FaTooth, FaAmbulance } from 'react-icons/fa'
 
 function App() {
   const [professionals, setProfessionals] = useState([])
@@ -16,44 +17,50 @@ function App() {
     fetchProfessionals()
   }, [selectedCategory])
 
-const categories = [
-  { value: "vet", label: "Veterinarias" },
-  { value: "dentist", label: "Odontología" },
-  { value: "emergencies", label: "Emergencias" },
-]
+  const categories = [
+    { value: "vet", label: "Veterinarias", icon: FaPaw },
+    { value: "dentist", label: "Odontología", icon: FaTooth },
+    { value: "emergencies", label: "Emergencias", icon: FaAmbulance },
+  ]
 
-return (
-  <div>
-    <h1>Ushuaia 24hs</h1>
-    <p>Guardias y profesionales disponibles</p>
+  return (
+    <div>
+      <h1>Ushuaia 24hs</h1>
+      <p className="subtitle">Guardias y profesionales disponibles</p>
 
-    {selectedCategory === null ? (
-      <div>
-        {categories.map((cat) => (
+      {selectedCategory === null ? (
+        <div>
+          {categories.map((cat) => {
+            const Icon = cat.icon
+            return (
+
+              <button
+                key={cat.value}
+                className="category-button"
+                onClick={() => setSelectedCategory(cat.value)}
+              >
+                <Icon className="category-icon" />
+                {cat.label}
+              </button>
+            )
+          })}
+
+        </div>
+      ) : (
+        <div>
+          {professionals.map((prof) => (
+            <ProfessionalCard key={prof.id} professional={prof} />
+          ))}
           <button
-          key={cat.value}
-          className="category-button"
-          onClick={() => setSelectedCategory(cat.value)}
+            className="back-button"
+            onClick={() => setSelectedCategory(null)}
           >
-            {cat.label}
+            ← Volver
           </button>
-        ))}
-      </div>
-    ): (
-      <div>
-        <button
-        className="back-button"
-        onClick={() => setSelectedCategory(null)}
-        >
-          Volver
-        </button>
-        {professionals.map((prof) => (
-          <ProfessionalCard key={prof.id} professional={prof} />
-        ))}
-      </div>
-    )}
-  </div>
-)
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default App
